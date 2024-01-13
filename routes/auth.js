@@ -1,6 +1,7 @@
 import express from "express";
 import { User } from "../models/user.js";
 import {
+  saveRefreshToken,
   signAccessToken,
   signRefreshToken,
   verifyRefreshToken,
@@ -31,6 +32,7 @@ router.post("/register", async (req, res, next) => {
       savedUser.id,
       savedUser.userName
     );
+    await saveRefreshToken(savedUser.id, refreshToken);
 
     res.json({ message: "success", accessToken, refreshToken });
   } catch (err) {
@@ -53,6 +55,7 @@ router.post("/login", async (req, res, next) => {
 
     const accessToken = await signAccessToken(user.id, user.userName);
     const refreshToken = await signRefreshToken(user.id, user.userName);
+    await saveRefreshToken(user.id, refreshToken);
 
     res.json({ accessToken, refreshToken });
   } catch (err) {
@@ -60,16 +63,21 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-//Get new Access Tokens
+//Get new Access Token
 router.post("/refreshtoken", async (req, res, next) => {
   try {
     const { refreshToken } = req.body;
     if (!refreshToken) throw createHttpError.BadRequest();
 
     const { userId, userName } = await verifyRefreshToken(refreshToken);
+    //Remove old refreshToken
+    await RefreshTokenStorage.deleteOne({ refreshToken });
 
+    //Create and save new refreshToken
     const accessToken = await signAccessToken(userId, userName);
     const newRefreshToken = await signRefreshToken(userId, userName);
+
+    await saveRefreshToken(userId, newRefreshToken);
 
     res.json({ accessToken, refreshToken: newRefreshToken });
   } catch (err) {

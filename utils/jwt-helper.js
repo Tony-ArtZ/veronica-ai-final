@@ -2,6 +2,7 @@ import JWT from "jsonwebtoken";
 import * as dotenv from "dotenv";
 import chalk from "chalk";
 import createHttpError from "http-errors";
+import { RefreshTokenStorage } from "../models/refresh-tokens";
 dotenv.config();
 
 //Create new Access Token
@@ -81,9 +82,23 @@ const verifyRefreshToken = (refreshToken) => {
   });
 };
 
+//Save Refresh Token
+const saveRefreshToken = async (userId, newRefreshToken) => {
+  try {
+    const newRefreshTokenStorage = new RefreshTokenStorage({
+      userId,
+      refreshToken: newRefreshToken,
+    });
+    await newRefreshTokenStorage.save();
+  } catch (err) {
+    throw err;
+  }
+};
+
 export {
   signAccessToken,
   verifyAccessToken,
   signRefreshToken,
   verifyRefreshToken,
+  saveRefreshToken,
 };

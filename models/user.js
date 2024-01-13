@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bycrypt from "bcrypt";
+import * as bcrypt from 'bcryptjs';
 
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, lowercase: true, unique: true },
@@ -20,7 +20,7 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods.isValidPassword = async function (password) {
   try {
-    return await bycrypt.compare(password, this.password);
+    return await bcrypt.compare(password, this.password);
   } catch (err) {
     throw err;
   }

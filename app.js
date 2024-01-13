@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import { authRouter } from "./routes/auth.js";
 import { messageRouter } from "./routes/message.js";
+import { spotifyRouter } from "./routes/spotify-auth.js";
 dotenv.config();
 
 const port = process.env.PORT || 3000;
@@ -22,6 +23,9 @@ app.get("/ping", (req, res) => {
 
 //Auth Route
 app.use("/auth", authRouter);
+
+//Spotify Auth Route
+app.use("/spotify", spotifyRouter);
 
 //Messages Route
 app.use("/", messageRouter);
