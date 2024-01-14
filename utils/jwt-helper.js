@@ -2,7 +2,7 @@ import JWT from "jsonwebtoken";
 import * as dotenv from "dotenv";
 import chalk from "chalk";
 import createHttpError from "http-errors";
-import { RefreshTokenStorage } from "../models/refresh-tokens";
+import { RefreshTokenStorage } from "../models/refresh-tokens.js";
 dotenv.config();
 
 //Create new Access Token
