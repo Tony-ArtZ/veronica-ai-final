@@ -7,6 +7,7 @@ import {
   verifyRefreshToken,
 } from "../utils/jwt-helper.js";
 import createHttpError from "http-errors";
+import { RefreshTokenStorage } from "../models/refresh-tokens.js";
 
 const router = express.Router();
 

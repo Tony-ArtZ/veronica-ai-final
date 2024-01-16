@@ -65,4 +65,53 @@ router.post("/save", verifyAccessToken, async (req, res, next) => {
   }
 });
 
+//Send Authorization code to get Access Token
+router.post("/getaccesstokenfromauhtorization", async (req, res, next) => {
+  try {
+    const authCode = req.body.code;
+    const response = await fetch("https://accounts.spotify.com/api/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Basic ${btoa(
+          process.env.Client_ID + ":" + process.env.Client_Secret
+        )}`,
+      },
+      body: new URLSearchParams({
+        grant_type: "authorization_code",
+        code: authCode,
+      }),
+    });
+
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+});
+
+//Send Refresh Token to get Access Token
+router.post("/getaccesstokenfromrefresh", async (req, res, next) => {
+  try {
+    const refreshToken = req.body.refreshToken;
+    const response = await fetch("https://accounts.spotify.com/api/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Basic ${btoa(
+          process.env.Client_ID + ":" + process.env.Client_Secret
+        )}`,
+      },
+      body: new URLSearchParams({
+        grant_type: "refresh_token",
+        refresh_token: refreshToken,
+      }),
+    });
+
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+});
 export { router as spotifyRouter };
