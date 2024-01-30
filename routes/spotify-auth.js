@@ -11,18 +11,11 @@ const router = Router();
 router.get("/authorize", (req, res, next) => {
   try {
     const redirect_uri =
-      req.protocol + "://" + req.get("host") + "spotify/redirect";
+      req.protocol + "://" + req.get("host") + "/spotify/redirect";
     console.log(redirect_uri);
 
     res.redirect(
-      "https://accounts.spotify.com/authorize?" +
-        querystring.stringify({
-          response_type: "code",
-          client_id: process.env.Client_ID,
-          scope: scope,
-          redirect_uri,
-          state: state,
-        })
+      "https://accounts.spotify.com/authorize?" + "response_type=code"+"&client_id="+process.env.Client_ID+"&redirect_uri="+redirect_uri
     );
   } catch (err) {
     next(err);
@@ -35,7 +28,7 @@ router.get("/redirect", (req, res, next) => {
     const code = req.query.code || null;
     const state = req.query.state || null;
 
-    if (!state || !code) {
+    if (!code) {
       throw createHttpError.InternalServerError;
     } else {
       const appDeepLink = `veronica://spotifyauth/?code=${code}`;
