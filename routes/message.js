@@ -6,6 +6,7 @@ import { Messages } from "../models/messages.js";
 import { getMessage, saveMessage } from "../utils/messages-helper.js";
 import { getPromptObject } from "../utils/prompt.js";
 import { sendMessageWithAnimation } from "../functions/animation.js";
+import { nextSong } from "../functions/spotify.js";
 dotenv.config();
 
 const router = express.Router();
@@ -16,6 +17,7 @@ router.post("/", verifyAccessToken, async (req, res, next) => {
     const userId = req.payload.aud;
     const userName = req.payload.userName;
     const { message } = req.body;
+    const { spotifyToken } = req.body;
 
     //Save the current message
     await saveMessage(message, "user", userId);
@@ -41,6 +43,13 @@ router.post("/", verifyAccessToken, async (req, res, next) => {
       responseMessage = sendMessageWithAnimation(
         responseMessage.function_call.arguments
       );
+    }
+
+    //TODO: Add Spotify API Integration
+    if (spotifyToken) {
+      if (responseMessage.function_call?.name === "nextSong") {
+        nextSong(spotifyToken);
+      }
     }
 
     //Save the response in Database

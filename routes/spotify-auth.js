@@ -12,10 +12,14 @@ router.get("/authorize", (req, res, next) => {
   try {
     const redirect_uri =
       req.protocol + "://" + req.get("host") + "/spotify/redirect";
-    console.log(redirect_uri);
 
     res.redirect(
-      "https://accounts.spotify.com/authorize?" + "response_type=code"+"&client_id="+process.env.Client_ID+"&redirect_uri="+redirect_uri
+      "https://accounts.spotify.com/authorize?" +
+        "response_type=code" +
+        "&client_id=" +
+        process.env.Client_ID +
+        "&redirect_uri=" +
+        redirect_uri
     );
   } catch (err) {
     next(err);
@@ -71,6 +75,8 @@ router.post("/getaccesstokenfromauhtorization", async (req, res, next) => {
         )}`,
       },
       body: new URLSearchParams({
+        redirect_uri:
+          req.protocol + "://" + req.get("host") + "/spotify/redirect",
         grant_type: "authorization_code",
         code: authCode,
       }),
@@ -96,6 +102,8 @@ router.post("/getaccesstokenfromrefresh", async (req, res, next) => {
         )}`,
       },
       body: new URLSearchParams({
+        redirect_uri:
+          req.protocol + "://" + req.get("host") + "/spotify/redirect",
         grant_type: "refresh_token",
         refresh_token: refreshToken,
       }),
