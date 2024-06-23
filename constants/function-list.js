@@ -1,4 +1,4 @@
-import { nextSong } from "../functions/spotify";
+import { currentTrack, nextSong } from "../functions/spotify.js";
 
 export const spotifyFunctionsList = [
   {
@@ -10,8 +10,18 @@ export const spotifyFunctionsList = [
       properties: {},
     },
   },
+  {
+    name: "currentTrack",
+    description:
+      "use this function to get the currently playing track in the user's spotify queue",
+    parameters: {
+      type: "object",
+      properties: {},
+    },
+  },
 ];
 
-export const spotifyFunctions = {
+export const functions = {
   nextSong: nextSong,
+  currentTrack: currentTrack,
 };

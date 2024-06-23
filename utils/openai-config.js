@@ -1,5 +1,6 @@
 //OpenAI chatCompletion functions and other parameters
 import * as dotenv from "dotenv";
+import { spotifyFunctionsList } from "../constants/function-list.js";
 dotenv.config();
 
 const openAiConfig = {
@@ -26,15 +27,7 @@ const openAiConfig = {
       },
       required: ["content", "animationName"],
     },
-    {
-      name: "nextSong",
-      description:
-        "use this function to skip to the next song in the user's spotify queue",
-      parameters: {
-        type: "object",
-        properties: {},
-      },
-    },
+    ...spotifyFunctionsList,
   ],
 };
 
