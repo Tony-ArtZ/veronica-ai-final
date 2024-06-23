@@ -48,7 +48,7 @@ router.post("/", verifyAccessToken, async (req, res, next) => {
     //TODO: Add Spotify API Integration
     if (spotifyToken) {
       if (responseMessage.function_call?.name === "nextSong") {
-        responseMessage = nextSong(spotifyToken, userName);
+        responseMessage = await nextSong(spotifyToken, userName);
       }
     }
 
