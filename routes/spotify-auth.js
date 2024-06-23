@@ -10,7 +10,7 @@ const router = Router();
 //Get User's consent from spotify authorization page
 router.get("/authorize", (req, res, next) => {
   try {
-    const scope = "user-modify-playback-state"
+    const scope = "user-modify-playback-state user-read-currently-playing"
     const redirect_uri =
       req.protocol + "://" + req.get("host") + "/spotify/redirect";
 
