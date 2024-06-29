@@ -1,4 +1,4 @@
-export const nextSong = async (token, username) => {
+export const nextSong = async (token, username, argumentsJson) => {
   try {
     const response = await fetch("https://api.spotify.com/v1/me/player/next", {
       method: "POST",
@@ -23,7 +23,7 @@ export const nextSong = async (token, username) => {
   }
 };
 
-export const currentTrack = async (token, username) => {
+export const currentTrack = async (token, username, argumentsJson) => {
   try {
     const response = await fetch(
       "https://api.spotify.com/v1/me/player/currently-playing",
@@ -50,6 +50,62 @@ export const currentTrack = async (token, username) => {
     return {
       role: "assistant",
       content: `No music is currently playing ${username} !`,
+    };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+export const playTrack = async (token, username, argumentsJson) => {
+  try {
+    const { track } = JSON.parse(argumentsJson);
+    const searchResponse = await fetch(
+      `https://api.spotify.com/v1/search?q=${track}&type=track&limit=1`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (searchResponse.status !== 200) {
+      return {
+        role: "assistant",
+        content: `Sorry ${username}, something went wrong !`,
+        animation: "Disappointed",
+      };
+    }
+    const searchData = await searchResponse.json();
+    if (searchData.tracks.items.length === 0) {
+      return {
+        role: "assistant",
+        content: `Sorry ${username}, I couldn't find the track !`,
+        animation: "Disappointed",
+      };
+    }
+    const trackUri = searchData.tracks.items[0].uri;
+
+    const response = await fetch(
+      `https://api.spotify.com/v1/me/player/play?device_id=${process.env.SPOTIFY_DEVICE_ID}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ uris: [trackUri] }),
+      }
+    );
+    if (response.status !== 204) {
+      return {
+        role: "assistant",
+        content: `Sorry ${username}, something went wrong !`,
+        animation: "Disappointed",
+      };
+    }
+    return {
+      role: "assistant",
+      content: `Playing ${track} ${username} !`,
     };
   } catch (err) {
     console.log(err);

@@ -71,17 +71,17 @@ router.post("/refreshtoken", async (req, res, next) => {
     if (!refreshToken) throw createHttpError.BadRequest();
 
     const { userId, userName } = await verifyRefreshToken(refreshToken);
-   
+
     //Check if refresh token is currently in use
     const refreshTokenInUse = await RefreshTokenStorage.findOne({
       userId,
       refreshToken,
-    })
+    });
 
-    if(!refreshTokenInUse) {
+    if (!refreshTokenInUse) {
       throw createHttpError.Unauthorized();
     }
-    
+
     //Remove old refreshToken
     await RefreshTokenStorage.deleteOne({ refreshToken });
 

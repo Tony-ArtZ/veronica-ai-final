@@ -45,14 +45,16 @@ router.post("/", verifyAccessToken, async (req, res, next) => {
       );
     } else if (responseMessage.function_call) {
       responseMessage = await functions[responseMessage.function_call.name](
-        spotifyToken, userName
+        spotifyToken,
+        userName,
+        responseMessage.function_call.arguments
       );
     }
     //Save the response in Database
     await saveMessage(responseMessage.content, responseMessage.role, userId);
     res.json(responseMessage);
   } catch (err) {
-    console.log(err)
+    console.log(err);
     next(err);
   }
 });
@@ -68,7 +70,7 @@ router.get("/getmessage", verifyAccessToken, async (req, res, next) => {
   }
 });
 
-router.post("/postMessage", verifyAccessToken, async (req, res, next) => {
+router.post("/postmessage", verifyAccessToken, async (req, res, next) => {
   try {
     const userId = req.payload.aud;
     const timeStamp = Date.now();

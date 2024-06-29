@@ -1,4 +1,4 @@
-import { currentTrack, nextSong } from "../functions/spotify.js";
+import { currentTrack, nextSong, playTrack } from "../functions/spotify.js";
 
 export const spotifyFunctionsList = [
   {
@@ -19,9 +19,24 @@ export const spotifyFunctionsList = [
       properties: {},
     },
   },
+  {
+    name: "playTrack",
+    description: "use this function to search and play a certain track",
+    parameters: {
+      type: "object",
+      properties: {
+        track: {
+          type: "string",
+          description: "the name of the track to search for",
+        },
+      },
+    },
+    required: ["track"],
+  },
 ];
 
 export const functions = {
   nextSong: nextSong,
   currentTrack: currentTrack,
+  playTrack: playTrack,
 };
