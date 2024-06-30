@@ -84,9 +84,9 @@ export const playTrack = async (token, username, argumentsJson) => {
       };
     }
     const trackUri = searchData.tracks.items[0].uri;
-
+    
     const response = await fetch(
-      `https://api.spotify.com/v1/me/player/play?device_id=${process.env.SPOTIFY_DEVICE_ID}`,
+      `https://api.spotify.com/v1/me/player/play`,
       {
         method: "PUT",
         headers: {
@@ -105,7 +105,7 @@ export const playTrack = async (token, username, argumentsJson) => {
     }
     return {
       role: "assistant",
-      content: `Playing ${track} ${username} !`,
+      content: `Playing ${searchData.tracks.items[0].name} by ${searchData.tracks.items[0].artists[0].name} ${username} !`,
     };
   } catch (err) {
     console.log(err);

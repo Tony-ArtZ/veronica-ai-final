@@ -96,6 +96,7 @@ router.post("/getaccesstokenfromauhtorization", async (req, res, next) => {
 router.post("/getaccesstokenfromrefresh", async (req, res, next) => {
   try {
     const refreshToken = req.body.refreshToken;
+    console.log(req.body)
     const response = await fetch("https://accounts.spotify.com/api/token", {
       method: "POST",
       headers: {
