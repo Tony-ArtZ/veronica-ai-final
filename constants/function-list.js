@@ -1,4 +1,9 @@
-import { currentTrack, nextSong, playTrack } from "../functions/spotify.js";
+import {
+  currentTrack,
+  nextSong,
+  playTrack,
+  randomTrack,
+} from "../functions/spotify.js";
 
 export const spotifyFunctionsList = [
   {
@@ -33,10 +38,26 @@ export const spotifyFunctionsList = [
     },
     required: ["track"],
   },
+  {
+    name: "randomTrack",
+    description: "use this function to search and play a random track",
+    parameters: {
+      type: "object",
+      properties: {
+        genre: {
+          type: "string",
+          description:
+            "the genre the user has requested for. if no genre requested then default to 'random'",
+        },
+      },
+    },
+    required: ["genre"],
+  },
 ];
 
 export const functions = {
   nextSong: nextSong,
   currentTrack: currentTrack,
   playTrack: playTrack,
+  randomTrack: randomTrack,
 };
