@@ -1,3 +1,4 @@
+import { getCurrentWeather, getForecastWeather } from "../functions/misc.js";
 import {
   currentTrack,
   nextSong,
@@ -55,9 +56,44 @@ export const spotifyFunctionsList = [
   },
 ];
 
+export const miscFunctions = [
+  {
+    name: "getCurrentWeather",
+    description:
+      "use this function to get the current weather of a city using the weatherapi",
+    parameters: {
+      type: "object",
+      properties: {
+        city: {
+          type: "string",
+          description: "the name of the city to get the weather of",
+        },
+      },
+    },
+    required: ["city"],
+  },
+  {
+    name: "getForecastWeather",
+    description:
+      "use this function to get the forecast weather of a city using the weatherapi",
+    parameters: {
+      type: "object",
+      properties: {
+        city: {
+          type: "string",
+          description: "the name of the city to get the weather of",
+        },
+      },
+    },
+    required: ["city"],
+  },
+];
+
 export const functions = {
   nextSong: nextSong,
   currentTrack: currentTrack,
   playTrack: playTrack,
   randomTrack: randomTrack,
+  getCurrentWeather: getCurrentWeather,
+  getForecastWeather: getForecastWeather,
 };

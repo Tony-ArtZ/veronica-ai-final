@@ -1,6 +1,9 @@
 //OpenAI chatCompletion functions and other parameters
 import * as dotenv from "dotenv";
-import { spotifyFunctionsList } from "../constants/function-list.js";
+import {
+  miscFunctions,
+  spotifyFunctionsList,
+} from "../constants/function-list.js";
 dotenv.config();
 
 const openAiConfig = {
@@ -28,6 +31,7 @@ const openAiConfig = {
       required: ["content", "animationName"],
     },
     ...spotifyFunctionsList,
+    ...miscFunctions,
   ],
 };
 
