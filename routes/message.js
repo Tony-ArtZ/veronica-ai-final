@@ -7,6 +7,7 @@ import { getMessage, saveMessage } from "../utils/messages-helper.js";
 import { getPromptObject } from "../utils/prompt.js";
 import { sendMessageWithAnimation } from "../functions/animation.js";
 import { functions } from "../constants/function-list.js";
+import { getAllPreferences } from "../utils/user-prefs-helper.js";
 dotenv.config();
 
 const router = express.Router();
@@ -29,8 +30,11 @@ router.post("/", verifyAccessToken, async (req, res, next) => {
       content,
     }));
 
+    //Get the preferences of the user
+    const userPreferences = await getAllPreferences(userId);
+
     //Messages history with prompt attached
-    const prompt = getPromptObject(userName);
+    const prompt = getPromptObject(userName, userPreferences);
     const messageWithPrompt = [prompt, ...messagesModified];
 
     //Get response from API
@@ -48,7 +52,7 @@ router.post("/", verifyAccessToken, async (req, res, next) => {
         userId,
         token: spotifyToken,
         userName,
-        argumentsJson: argumentsJson.responseMessage.function_call.arguments,
+        argumentsJson: responseMessage.function_call.arguments,
       });
     }
     //Save the response in Database

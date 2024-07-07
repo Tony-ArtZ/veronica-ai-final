@@ -8,6 +8,7 @@ import {
 } from "../utils/jwt-helper.js";
 import createHttpError from "http-errors";
 import { RefreshTokenStorage } from "../models/refresh-tokens.js";
+import { UserPreference } from "../models/user-preferences.js";
 
 const router = express.Router();
 
@@ -57,6 +58,12 @@ router.post("/login", async (req, res, next) => {
     const accessToken = await signAccessToken(user.id, user.userName);
     const refreshToken = await signRefreshToken(user.id, user.userName);
     await saveRefreshToken(user.id, refreshToken);
+
+    //Create Empty User Preferences
+    const userPrefs = new UserPreference({
+      userId: user.id,
+    });
+    await userPrefs.save();
 
     res.json({ accessToken, refreshToken });
   } catch (err) {

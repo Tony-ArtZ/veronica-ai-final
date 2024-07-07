@@ -2,6 +2,7 @@
 import * as dotenv from "dotenv";
 import {
   miscFunctions,
+  preferencesFunctions,
   spotifyFunctionsList,
 } from "../constants/function-list.js";
 dotenv.config();
@@ -32,6 +33,7 @@ const openAiConfig = {
     },
     ...spotifyFunctionsList,
     ...miscFunctions,
+    ...preferencesFunctions,
   ],
 };
 

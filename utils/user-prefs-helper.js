@@ -20,7 +20,7 @@ async function deletePreferenceHelper(userId, key) {
 
 async function getAllPreferences(userId) {
   const userPreferences = await UserPreference.findOne({ userId: userId });
-  return userPreferences ? userPreferences.data : null;
+  return userPreferences ? userPreferences.data : {};
 }
 
 export {
