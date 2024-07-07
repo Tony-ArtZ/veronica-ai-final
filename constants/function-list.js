@@ -48,7 +48,7 @@ export const spotifyFunctionsList = [
         genre: {
           type: "string",
           description:
-            "the genre the user has requested for. if no genre requested then default to 'random'",
+            "the genre the user has requested for. if no genre requested then default to 'random'. Make sure use proper skewer-case formatting like k-pop, hip-hop.",
         },
       },
     },
