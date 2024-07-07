@@ -1,5 +1,9 @@
 import { getCurrentWeather, getForecastWeather } from "../functions/misc.js";
 import {
+  deletePreference,
+  updatePreference,
+} from "../functions/preferences.js";
+import {
   currentTrack,
   nextSong,
   playTrack,
@@ -48,7 +52,7 @@ export const spotifyFunctionsList = [
         genre: {
           type: "string",
           description:
-            "the genre the user has requested for. if no genre requested then default to 'random'",
+            "the genre the user has requested for. if no genre requested then default to 'random'. Make sure use proper skewer-case formatting like k-pop, hip-hop.",
         },
       },
     },
@@ -134,15 +138,6 @@ export const preferencesFunctions = [
     },
     required: ["key", "content"],
   },
-  {
-    name: "getAllPreferences",
-    description:
-      "use this function to get all the user preferences from the database",
-    parameters: {
-      type: "object",
-      properties: {},
-    },
-  },
 ];
 
 export const functions = {
@@ -152,4 +147,6 @@ export const functions = {
   randomTrack: randomTrack,
   getCurrentWeather: getCurrentWeather,
   getForecastWeather: getForecastWeather,
+  updatePreference: updatePreference,
+  deletePreference: deletePreference,
 };

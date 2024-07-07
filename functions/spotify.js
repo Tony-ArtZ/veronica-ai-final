@@ -1,6 +1,6 @@
 import { genreList, getRandomGenre } from "../constants/genre.js";
 
-export const nextSong = async (token, username, argumentsJson) => {
+export const nextSong = async ({ token, username, argumentsJson }) => {
   try {
     const response = await fetch("https://api.spotify.com/v1/me/player/next", {
       method: "POST",
@@ -25,7 +25,7 @@ export const nextSong = async (token, username, argumentsJson) => {
   }
 };
 
-export const currentTrack = async (token, username, argumentsJson) => {
+export const currentTrack = async ({ token, username, argumentsJson }) => {
   try {
     const response = await fetch(
       "https://api.spotify.com/v1/me/player/currently-playing",
@@ -59,7 +59,7 @@ export const currentTrack = async (token, username, argumentsJson) => {
   }
 };
 
-export const playTrack = async (token, username, argumentsJson) => {
+export const playTrack = async ({ token, username, argumentsJson }) => {
   try {
     const { track } = JSON.parse(argumentsJson);
     const searchResponse = await fetch(
@@ -112,7 +112,7 @@ export const playTrack = async (token, username, argumentsJson) => {
   }
 };
 
-export const randomTrack = async (token, username, argumentsJson) => {
+export const randomTrack = async ({ token, username, argumentsJson }) => {
   try {
     const { genre } = JSON.parse(argumentsJson);
     let selectedGenre = genre;

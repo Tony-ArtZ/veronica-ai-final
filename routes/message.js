@@ -44,11 +44,12 @@ router.post("/", verifyAccessToken, async (req, res, next) => {
         responseMessage.function_call.arguments
       );
     } else if (responseMessage.function_call) {
-      responseMessage = await functions[responseMessage.function_call.name](
-        spotifyToken,
+      responseMessage = await functions[responseMessage.function_call.name]({
+        userId,
+        token: spotifyToken,
         userName,
-        responseMessage.function_call.arguments
-      );
+        argumentsJson: argumentsJson.responseMessage.function_call.arguments,
+      });
     }
     //Save the response in Database
     await saveMessage(responseMessage.content, responseMessage.role, userId);

@@ -1,14 +1,8 @@
-export const getCurrentWeather = async ({ username, argumentsJson }) => {
-  const city = argumentsJson.city;
+export const getCurrentWeather = async ({ token, username, argumentsJson }) => {
   try {
+    const city = JSON.parse(argumentsJson).city;
     const response = await fetch(
-      `http://api.weatherapi.com/v1/current.json?key=${process.env.WEATHER_KEY}&q=${city}&aqi=no`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      `http://api.weatherapi.com/v1/current.json?key=${process.env.WEATHER_KEY}&q=${city}&aqi=no`
     );
     if (response.status !== 200) {
       return {
@@ -33,16 +27,10 @@ export const getForecastWeather = async ({
   username,
   argumentsJson,
 }) => {
-  const city = argumentsJson.city;
   try {
+    const city = JSON.parse(argumentsJson).city;
     const response = await fetch(
-      `http://api.weatherapi.com/v1/forecast.json?key=${process.env.WEATHER_KEY}&q=${city}&days=1&aqi=no`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      `http://api.weatherapi.com/v1/forecast.json?key=${process.env.WEATHER_KEY}&q=${city}&days=1&aqi=no`
     );
     if (response.status !== 200) {
       return {
