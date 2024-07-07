@@ -89,6 +89,62 @@ export const miscFunctions = [
   },
 ];
 
+export const preferencesFunctions = [
+  {
+    name: "updatePreference",
+    description:
+      "use this function to update the user preferences in the database",
+    parameters: {
+      type: "object",
+      properties: {
+        key: {
+          type: "string",
+          description: "the key of the preference to update",
+        },
+        value: {
+          type: "string",
+          description: "the value of the preference to update",
+        },
+        content: {
+          type: "string",
+          description:
+            "this is the reply that will be sent to the user. Must not be empty",
+        },
+      },
+    },
+    required: ["key", "value", "content"],
+  },
+  {
+    name: "deletePreference",
+    description:
+      "use this function to delete the user preferences in the database",
+    parameters: {
+      type: "object",
+      properties: {
+        key: {
+          type: "string",
+          description: "the key of the preference to delete",
+        },
+        content: {
+          type: "string",
+          description:
+            "this is the reply that will be sent to the user. Must not be empty",
+        },
+      },
+    },
+    required: ["key", "content"],
+  },
+  {
+    name: "getAllPreferences",
+    description:
+      "use this function to get all the user preferences from the database",
+    parameters: {
+      type: "object",
+      properties: {},
+    },
+  },
+];
+
 export const functions = {
   nextSong: nextSong,
   currentTrack: currentTrack,

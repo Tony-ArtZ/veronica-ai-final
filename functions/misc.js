@@ -1,4 +1,4 @@
-export const getCurrentWeather = async (token, username, argumentsJson) => {
+export const getCurrentWeather = async ({ username, argumentsJson }) => {
   const city = argumentsJson.city;
   try {
     const response = await fetch(
@@ -28,7 +28,11 @@ export const getCurrentWeather = async (token, username, argumentsJson) => {
     throw err;
   }
 };
-export const getForecastWeather = async (token, username, argumentsJson) => {
+export const getForecastWeather = async ({
+  token,
+  username,
+  argumentsJson,
+}) => {
   const city = argumentsJson.city;
   try {
     const response = await fetch(
