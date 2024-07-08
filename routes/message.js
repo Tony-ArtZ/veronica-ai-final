@@ -51,7 +51,7 @@ router.post("/", verifyAccessToken, async (req, res, next) => {
       responseMessage = await functions[responseMessage.function_call.name]({
         userId,
         token: spotifyToken,
-        userName,
+        username: userName,
         argumentsJson: responseMessage.function_call.arguments,
       });
     }
