@@ -81,7 +81,7 @@ router.post("/postmessage", verifyAccessToken, async (req, res, next) => {
     const timeStamp = Date.now();
     const message = new Messages({
       role: "user",
-      content: req.body.message,
+      content: req.body.message + "| Current Time: " + req.body.localTime,
       userId,
       timeStamp,
     });
