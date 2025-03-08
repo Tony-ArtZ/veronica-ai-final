@@ -1,4 +1,8 @@
-import { getCurrentWeather, getForecastWeather } from "../functions/misc.js";
+import {
+  getCurrentWeather,
+  getForecastWeather,
+  orderPizza,
+} from "../functions/misc.js";
 import {
   deletePreference,
   updatePreference,
@@ -91,6 +95,20 @@ export const miscFunctions = [
     },
     required: ["city"],
   },
+  {
+    name: "orderPizza",
+    description:
+      "use this function to order a pizza from dominos the type and locations is already set",
+    parameters: {
+      type: "object",
+      properties: {
+        specifcs: {
+          type: "string",
+          description: "any specific changws user asked for",
+        },
+      },
+    },
+  },
 ];
 
 export const preferencesFunctions = [
@@ -149,4 +167,5 @@ export const functions = {
   getForecastWeather: getForecastWeather,
   updatePreference: updatePreference,
   deletePreference: deletePreference,
+  orderPizza,
 };

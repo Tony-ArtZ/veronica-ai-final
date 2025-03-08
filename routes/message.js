@@ -21,7 +21,16 @@ router.post("/", verifyAccessToken, async (req, res, next) => {
     const { spotifyToken } = req.body;
 
     //Save the current message
-    await saveMessage(message, "user", userId);
+    await saveMessage(
+      message +
+        " [User's Time: " +
+        req.body.localTime.split(" ")[1] +
+        " Date: " +
+        req.body.localTime.split(" ")[0] +
+        " ]",
+      "user",
+      userId,
+    );
 
     //Get list of previous messages
     const messages = await getMessage(4, userId);
@@ -45,9 +54,10 @@ router.post("/", verifyAccessToken, async (req, res, next) => {
     //Add Animation to response
     if (responseMessage.function_call?.name === "sendMessageWithAnimation") {
       responseMessage = sendMessageWithAnimation(
-        responseMessage.function_call.arguments
+        responseMessage.function_call.arguments,
       );
     } else if (responseMessage.function_call) {
+      console.log(responseMessage.function_call);
       responseMessage = await functions[responseMessage.function_call.name]({
         userId,
         token: spotifyToken,
@@ -81,7 +91,7 @@ router.post("/postmessage", verifyAccessToken, async (req, res, next) => {
     const timeStamp = Date.now();
     const message = new Messages({
       role: "user",
-      content: req.body.message + "| Current Time: " + req.body.localTime,
+      content: req.body.message,
       userId,
       timeStamp,
     });

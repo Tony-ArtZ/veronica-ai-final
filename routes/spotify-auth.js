@@ -10,7 +10,7 @@ const router = Router();
 //Get User's consent from spotify authorization page
 router.get("/authorize", (req, res, next) => {
   try {
-    const scope = "user-modify-playback-state user-read-currently-playing"
+    const scope = "user-modify-playback-state user-read-currently-playing";
     const redirect_uri =
       req.protocol + "://" + req.get("host") + "/spotify/redirect";
 
@@ -21,8 +21,8 @@ router.get("/authorize", (req, res, next) => {
         process.env.Client_ID +
         "&redirect_uri=" +
         redirect_uri +
-      "&scope=" +
-      scope
+        "&scope=" +
+        scope,
     );
   } catch (err) {
     next(err);
@@ -39,6 +39,7 @@ router.get("/redirect", (req, res, next) => {
       throw createHttpError.InternalServerError;
     } else {
       const appDeepLink = `veronica://spotifyauth/?code=${code}`;
+      console.log(appDeepLink);
       res.redirect(appDeepLink);
     }
   } catch (err) {
@@ -74,7 +75,7 @@ router.post("/getaccesstokenfromauhtorization", async (req, res, next) => {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         Authorization: `Basic ${btoa(
-          process.env.Client_ID + ":" + process.env.Client_Secret
+          process.env.Client_ID + ":" + process.env.Client_Secret,
         )}`,
       },
       body: new URLSearchParams({
@@ -96,13 +97,13 @@ router.post("/getaccesstokenfromauhtorization", async (req, res, next) => {
 router.post("/getaccesstokenfromrefresh", async (req, res, next) => {
   try {
     const refreshToken = req.body.refreshToken;
-    console.log(req.body)
+    console.log(req.body);
     const response = await fetch("https://accounts.spotify.com/api/token", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         Authorization: `Basic ${btoa(
-          process.env.Client_ID + ":" + process.env.Client_Secret
+          process.env.Client_ID + ":" + process.env.Client_Secret,
         )}`,
       },
       body: new URLSearchParams({
